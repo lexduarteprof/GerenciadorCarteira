@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class TituloPublicoLTN extends AtivoFinanceiro {
 
 
-    public TituloPublicoLTN(LocalDate dataDeCompra, LocalDate dataDeVencimento) {
+    public TituloPublicoLTN(LocalDate dataDeVencimento) {
         super(dataDeVencimento);
         this.nome = "LTN";
         this.descricao = "Título público Federal denominado LTN, possui rendimento pré-fixado!";

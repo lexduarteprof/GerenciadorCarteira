@@ -23,12 +23,14 @@ public abstract class AtivoFinanceiro {
     private LocalDate dataDeVenda;
     private double taxaDeVenda;
     private double precoUnitarioVenda;
-    private double taxaDeMercado;
+    private Double taxaDeMercado;
     private double precoUnitarioMercado;
 
+    private double VNA;
 
     public AtivoFinanceiro(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
+        this.taxaDeMercado = null;
     }
 
     public LocalDate getDataDeCompra() {
@@ -61,7 +63,13 @@ public abstract class AtivoFinanceiro {
         return precoUnitarioCompra;
     }
 
+    public double getVNA() {
+        return VNA;
+    }
 
+    public void setVNA(double VNA) {
+        this.VNA = VNA;
+    }
 
     public LocalDate getDataDeVenda() {
         return dataDeVenda;
@@ -85,21 +93,32 @@ public abstract class AtivoFinanceiro {
         return precoUnitarioVenda;
     }
 
-    public double getTaxaDeMercado() {
+    public Double getTaxaDeMercado() {
         return taxaDeMercado;
     }
 
-    public void setTaxaDeMercado(double taxaDeMercado) {
+    public void setTaxaDeMercado(Double taxaDeMercado) {
         this.taxaDeMercado = taxaDeMercado;
     }
 
-    public double getPrecoUnitarioMercado() {
+    public double getPrecoUnitarioMercado(LocalDate dataBaseCalculo) {
+
+        if(this.taxaDeMercado == null){
+            throw new ArithmeticException("A taxa de mercado não pode ser nula!");
+        }else{
+            precoUnitarioMercado = this.calcularPreco(this.taxaDeMercado, dataBaseCalculo);
+        }
+
         return precoUnitarioMercado;
     }
 
     public double getQuantidadeVigente() {
         return quantidadeVigente;
     }
+
+
+
+
 
     @Override
     public String toString() {
@@ -116,7 +135,6 @@ public abstract class AtivoFinanceiro {
                 "quantidadeVigente=" + quantidadeVigente;
     }
     public abstract double calcularPreco(double Taxa, LocalDate dataCalculo);
-
     public void comprar(LocalDate dataDeCompra, long quantidadeComprada, double taxaDeCompra){
 
         this.quantidadeVigente += quantidadeComprada;
