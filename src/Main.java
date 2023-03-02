@@ -1,10 +1,7 @@
 import com.digitalinnovation.CarteiraDeAtivos;
 import com.digitalinnovation.TituloPublicoLFT;
 import com.digitalinnovation.TituloPublicoLTN;
-import com.digitalinnovation.UtilDate;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -75,25 +72,44 @@ public class Main {
         carteiraCampea.adicionarAtivo(LFT_20240101a, 12000, dataCompraCarteira,
                 0.02);
 
-
-        //Impressão dos dados da Carteira
+        //Impressão dos dados após as compras
+        System.out.println("Lista de ativos vigentes após compras");
         carteiraCampea.getAtivosVigentes().forEach(
                 e -> System.out.println(e.toString()));
         System.out.println(String.format("%,.2f", carteiraCampea.getValorInvestido()));
 
 
+        //Venda de um ativo
+        LocalDate dataVendaCarteira = LocalDate.parse("2023/04/01", dateTimeFormatter);
 
+        carteiraCampea.removerAtivo(LTN_20240101b, dataVendaCarteira, 11.34);
 
+        //Impressão dos dados da Carteira após as vendas
+        System.out.println("Lista de ativos vigentes após vendas");
+        carteiraCampea.getAtivosVigentes().forEach(
+                e -> System.out.println(e.toString()));
 
+        //Realização da marcação a mercado dos ativos da carteira
+        LocalDate dataDaMarcacao = LocalDate.parse("2023/06/01", dateTimeFormatter);
+        LTN_20240101a.setTaxaDeMercado(10.5);
+        LTN_20240101b.setTaxaDeMercado(10.5);
+        LTN_20240101c.setTaxaDeMercado(10.5);
+        LFT_20240101a.setVNA(5315.11232);
+        LFT_20240101a.setTaxaDeMercado(0.02);
 
+        System.out.println(String.format("%,.2f", carteiraCampea.getValorDeMercado(dataDaMarcacao)));
 
+        //Apuração da rentabilidade da Carteira no período
+        double rentabilidade = (carteiraCampea.getValorDeMercado(dataDaMarcacao) /
+                carteiraCampea.getValorInvestido() -1) * 100;
 
+        System.out.println("Valor Investido: " +
+                String.format("%,.2f", carteiraCampea.getValorInvestido()));
+        System.out.println("Valor de Mercado: " +
+                String.format("%,.2f", carteiraCampea.getValorDeMercado(dataDaMarcacao)));
 
-
-
-
-
-
+        System.out.println("A rentabilidade da carteira no período é de: " +
+                String.format("%,.4f", rentabilidade) + "%");
 
     }
 }

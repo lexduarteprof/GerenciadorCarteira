@@ -15,7 +15,7 @@ public abstract class AtivoFinanceiro {
     protected String descricao;
     protected LocalDate dataVencimento;
 
-    protected double quantidadeVigente;
+    protected long quantidadeVigente;
 
     private LocalDate dataDeCompra;
     private double taxaDeCompra;
@@ -104,7 +104,7 @@ public abstract class AtivoFinanceiro {
     public double getPrecoUnitarioMercado(LocalDate dataBaseCalculo) {
 
         if(this.taxaDeMercado == null){
-            throw new ArithmeticException("A taxa de mercado não pode ser nula!");
+            throw new ArithmeticException("Para o cálculo do PU de Mercado, a taxa de mercado não pode ser nula!");
         }else{
             precoUnitarioMercado = this.calcularPreco(this.taxaDeMercado, dataBaseCalculo);
         }
@@ -112,7 +112,7 @@ public abstract class AtivoFinanceiro {
         return precoUnitarioMercado;
     }
 
-    public double getQuantidadeVigente() {
+    public long getQuantidadeVigente() {
         return quantidadeVigente;
     }
 

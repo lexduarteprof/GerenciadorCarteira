@@ -31,11 +31,18 @@ public class CarteiraDeAtivos {
         return ativosRemovidos;
     }
 
+    private double atualizarValorInvestido(){
+
+        return this.ativosVigentes.stream().mapToDouble(ativo -> ativo.getQuantidadeVigente() *
+                ativo.getPrecoUnitarioCompra()).sum();
+    }
+
     public double getValorInvestido() {
 
-        BigDecimal bd = new BigDecimal(valorInvestido).setScale(5, RoundingMode.HALF_UP);
+        return atualizarValorInvestido();
+        //BigDecimal bd = new BigDecimal(valorInvestido).setScale(5, RoundingMode.HALF_UP);
 
-        return bd.doubleValue();
+        //return bd.doubleValue();
     }
 
     public void adicionarAtivo(AtivoFinanceiro ativoFinanceiro, long quantidadeComprada,
@@ -49,6 +56,28 @@ public class CarteiraDeAtivos {
         System.out.println("Operacao de compra realizada!");
 
     }
+    public void removerAtivo(AtivoFinanceiro ativoFinanceiro,
+                             LocalDate dataVenda, double taxadeVenda){
+
+        this.valorInvestido -= (ativoFinanceiro.getQuantidadeVigente() * ativoFinanceiro.getPrecoUnitarioCompra());
+        ativoFinanceiro.vender(dataVenda, ativoFinanceiro.getQuantidadeVigente(),
+                taxadeVenda);
+
+        ativosVigentes.remove(ativoFinanceiro);
+        ativosRemovidos.add(ativoFinanceiro);
+
+        System.out.println("Operacao de venda realizada!");
+
+    }
+
+    public double getValorDeMercado(LocalDate dataDaMarcacao){
+
+        return this.ativosVigentes.stream().mapToDouble(
+                ativos-> ativos.getQuantidadeVigente()
+                        * ativos.getPrecoUnitarioMercado(dataDaMarcacao)).sum();
+
+    }
+
 
 
 
