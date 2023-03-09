@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 public class TituloPublicoLFT extends AtivoFinanceiro{
 
-
-
     public TituloPublicoLFT(LocalDate dataVencimento) {
         super(dataVencimento);
         this.nome = "LFT";

@@ -4,17 +4,9 @@ import java.time.LocalDate;
 
 public abstract class AtivoFinanceiro {
 
-    /*
-    enum TipoPreco{
-        COMPRA,
-        VENDA,
-        MERCADO
-    };
-     */
     protected String nome;
     protected String descricao;
     protected LocalDate dataVencimento;
-
     protected long quantidadeVigente;
 
     private LocalDate dataDeCompra;
@@ -104,7 +96,7 @@ public abstract class AtivoFinanceiro {
     public double getPrecoUnitarioMercado(LocalDate dataBaseCalculo) {
 
         if(this.taxaDeMercado == null){
-            throw new ArithmeticException("Para o cálculo do PU de Mercado, a taxa de mercado não pode ser nula!");
+            throw new NullPointerException("Para o cálculo do PU de Mercado, a taxa de mercado não pode ser nula!");
         }else{
             precoUnitarioMercado = this.calcularPreco(this.taxaDeMercado, dataBaseCalculo);
         }
